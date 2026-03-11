@@ -3,6 +3,7 @@
 #include<string>
 #include <stdio.h>
 #include<iomanip>
+#include<limits>
 using namespace std;
 
 struct Employee
@@ -76,7 +77,9 @@ int main()
 
 
         cout<<"Enter the name  : ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         fgets(p_emp->employee_name , 50 , stdin);
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout<<"Enter the job title : ";
         fgets(p_emp->job_title , 30 , stdin);
         cout<<"Enter the employee code : ";

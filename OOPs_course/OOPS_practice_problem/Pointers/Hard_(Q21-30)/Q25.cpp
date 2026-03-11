@@ -23,7 +23,7 @@ int main()
         }
     }
 
-    for (int i = 0; i < (*p).length() ; i++)   //
+    for (int i = 0; i < (*p).length() ; i++)   
     {
         cout<<(*p)[i]<<" ";
     }

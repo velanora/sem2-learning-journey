@@ -58,7 +58,7 @@ int main()
     return 0;
 }
 
-void swap(int*pa, int*pb)   //akes the address of a and b as arguments
+void swap(int*pa, int*pb)   //takes the address of a and b as arguments
 {
     *pa = (*pa)*(*pb);
     *pb = (*pa)/(*pb);
@@ -79,7 +79,6 @@ void mean(int*pa, int*pb ,int*p_mean) //takes the address of a, b and range as a
 
 void normalized(int*pa, int*pb, int*p_na, int*p_nb) //takes the address of a, b, normalized a and b  as arguments
 {
-    int na , nb;
     *p_na = (*pa)/(*pa);
     *p_nb = (*pb)/(*pb);
 }
