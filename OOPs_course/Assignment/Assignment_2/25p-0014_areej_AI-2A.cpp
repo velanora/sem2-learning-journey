@@ -1,3 +1,10 @@
+// assignment 2
+// OOP theory
+// ! TA Sahab, you didn't tell anything regarding  purchaseCount and itemCount in Sweetstalls and Visitors respectively.
+// ! Sir zulqernain suggested to leave it as it is, but i used them by making an addition
+// ! I have commented the where ever i added something you haven't suggested.
+// ! Another confusion so about step 3 in main()
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -46,7 +53,7 @@ public:
 
     void display()
     {
-        cout << "----------------------------------------------------" << endl;
+        cout << "--------------- Eid Mela Details --------------------" << endl;
         cout << "MelaName : " << melaName << endl;
         cout << "location : " << location << endl;
         cout << "Total number of Stalls : " << totalStalls << endl;
@@ -58,7 +65,7 @@ public:
         cout << endl;
     }
 
-    // member functions to access private data member
+    //static member functions to access private data member
     static int get_total_MelasHeld()
     {
         return total_MelasHeld;
@@ -102,19 +109,15 @@ public:
     }
 
     // Parameterized constructor
-    SweetStall(string arr_sweets[], string stallName, int maxItems, int pricePerKg, int totalKgSold)
+    SweetStall(string stallName, int maxItems, int pricePerKg, int totalKgSold)
     {
         stallID = stallID_counter;
         this->stallName = stallName;
         this->maxItems = maxItems;
         this->pricePerKg = pricePerKg;
         this->totalKgSold = totalKgSold;
-
+        this->itemCount = 0;
         sweetItems = new string[maxItems];
-        for (int i = 0; i < maxItems; i++)
-        {
-            sweetItems[i] = arr_sweets[i];
-        }
 
         totalRevenue_AllStalls += pricePerKg * totalKgSold;
         stallID_counter++;
@@ -130,10 +133,19 @@ public:
         sweetItems = new string[maxItems];
         pricePerKg = S.pricePerKg;
         totalKgSold = S.totalKgSold;
+        itemCount = S.itemCount;
 
+        // ! Addition : I used item count to track number of items for sweetItems-array
         for (int i = 0; i < maxItems; i++)
         {
-            sweetItems[i] = S.sweetItems[i];
+            if (i < S.itemCount)
+            {
+                sweetItems[i] = S.sweetItems[i];
+            }
+            else
+            {
+                sweetItems[i] = "Not available";
+            }
         }
 
         totalRevenue_AllStalls += pricePerKg * totalKgSold;
@@ -141,10 +153,27 @@ public:
         total_SweetStalls++;
     }
 
+    void setItems(string arr[], int size)
+    {
+        // ! Addition : I used item count to track number of items for sweetItems-array
+        itemCount = 0;
+        for (int i = 0; i < maxItems; i++)
+        {
+            if (i < size)
+            {
+                sweetItems[i] = arr[i];
+                itemCount++;
+            }
+            else
+            {
+                sweetItems[i] = " unavailable";
+            }
+        }
+    }
+
     // display function
     void display()
     {
-
         cout << "-----------Sweet stall details---------" << endl;
         cout << " Stall Name : " << stallName << endl;
 
@@ -196,65 +225,50 @@ public:
 class Visitor
 {
     static int totalVisitors;
-    static double totalEidiDistributed;
     static int visitorID_counter;
     string name;
     int visitorID;
     int age;
-    double eidiReceived;
-    double budget;
     string *purchasedItems;
     int purchaseCount;
     int maxPurchase;
 
 public:
+    static double totalEidiDistributed;
+    double eidiReceived;
+    double budget;
+
     // Default constructor
-    Visitor() : name("Guest"), age(0), eidiReceived(0.0), budget(500.0), maxPurchase(5), visitorID(visitorID_counter)
+    Visitor() : name("Guest"), age(0), eidiReceived(0.0), budget(500.0), maxPurchase(5), visitorID(visitorID_counter), purchaseCount(0)
     {
 
         purchasedItems = new string[maxPurchase];
 
-        for (size_t i = 0; i < maxPurchase; i++)
+        for (int i = 0; i < maxPurchase; i++)
         {
             purchasedItems[i] = "Unnamed";
         }
         totalEidiDistributed += eidiReceived;
 
         totalVisitors++;
-        purchaseCount++;
         visitorID_counter++;
     }
 
     // Parameterized constructor
-    Visitor(string name, int age, int eidiReceived, int budget, int maxPurchase) 
+    Visitor(string name, int age, int budget, int maxPurchase, int purchaseCount)
     {
-        if (purchaseCount <= maxPurchase)
-        {
+        visitorID = visitorID_counter;
+        this->name = name;
+        this->age = age;
+        this->eidiReceived = 0;
+        this->budget = budget;
+        this->purchaseCount = purchaseCount;
+        this->maxPurchase = maxPurchase;
+        purchasedItems = new string[maxPurchase];
+        totalEidiDistributed += eidiReceived;
 
-            visitorID = visitorID_counter;
-            this->name = name;
-            this->age = age;
-            this->eidiReceived = eidiReceived;
-            this->budget = budget;
-            this->purchaseCount = maxPurchase;
-            this->maxPurchase = maxPurchase;
-            purchasedItems = new string[maxPurchase];
-            totalEidiDistributed += eidiReceived;
-
-            for (size_t i = 0; i < maxPurchase; i++)
-            {
-                purchasedItems[i] = arr_pI[i];
-            }
-
-            
-            totalVisitors++;
-            visitorID_counter++;
-
-        }
-        else
-        {
-            cout<<"Maximum purchase limit reached you can't puchase further items "<<endl;
-        }
+        totalVisitors++;
+        visitorID_counter++;
     };
 
     // Copy constructor
@@ -263,18 +277,46 @@ public:
         name = V.name;
         age = V.age;
         visitorID = visitorID_counter;
-        budget = V.budget;
-        eidiReceived = V.eidiReceived;
+        budget = V.budget - V.eidiReceived;
+        eidiReceived = 0;
+        purchaseCount = V.purchaseCount;
         maxPurchase = V.maxPurchase;
         purchasedItems = new string[maxPurchase];
-        totalEidiDistributed += eidiReceived;
 
+        // ! Addition : I used item count to track number of items for purachseditems-array
         for (int i = 0; i < maxPurchase; i++)
         {
-            purchasedItems[i] = V.purchasedItems[i];
+            if (i < V.purchaseCount)
+            {
+                purchasedItems[i] = V.purchasedItems[i];
+            }
+            else
+            {
+                purchasedItems[i] = "Not available";
+            }
         }
+
         totalVisitors++;
         visitorID_counter++;
+    }
+
+    // setter function
+    void setItems(string arr_PI[], int size)
+    {
+        // ! Addition : I used item count to track number of items for purchaseItems-array
+        purchaseCount = 0; // start fresh
+        for (int i = 0; i < maxPurchase; i++)
+        {
+            if (i < size)
+            {
+                purchasedItems[i] = arr_PI[i]; // using i to index the input array
+                purchaseCount++;
+            }
+            else
+            {
+                purchasedItems[i] = "Not available";
+            }
+        }
     }
 
     // display function
@@ -305,22 +347,6 @@ public:
         cout << "----------------------------------------------------" << endl;
     }
 
-    // setter function
-    void setItems(string new_arr[], int size)
-    {
-        if (size > maxPurchase)
-        {
-            size = maxPurchase;
-        }
-
-        for (int i = 0; i < size; i++)
-        {
-            purchasedItems[i] = new_arr[i];
-        }
-
-        purchaseCount = size;
-    }
-
     // Destructor
     ~Visitor()
     {
@@ -330,6 +356,7 @@ public:
     }
 
     // member functions to access private data member
+
     static int get_totalVisitors()
     {
         return totalVisitors;
@@ -340,6 +367,8 @@ public:
         return totalEidiDistributed;
     }
 };
+
+// ! Added : static variables stallID_counter and visitorID_counter fot Sweetstall and Visitors respectively
 
 int EidMela::total_MelasHeld = 0;
 int EidMela::totalStalls_AcrossAllMelas = 0;
@@ -364,6 +393,10 @@ int main()
 
     cout << "\n\n\n\n";
 
+
+
+
+
     // 2
     // objects of  class 2
 
@@ -374,41 +407,72 @@ int main()
     S2.display();
 
     string sweets[3] = {"Sher khurma", "Sewaiyan", "Bar"};
-
-    SweetStall S3(sweets, "Pak Bakers", 3, 1000, 3);
+    SweetStall S3("Pak Bakers", 3, 1000, 3);
+    S3.setItems(sweets, 3);
     S3.display();
+
     cout << "\n\n\n\n";
+
+
+
 
     // 3
     // objects of class 3
+
+    // ! As it was mentioned in PDF to update the budget, eidireceived and totalEidiDistributed in main.
+    // ! so i thought you are asking the way i did instead of passing value to a function to update the above mentioned member functions.
+    // ! I made those specific member functions public to access it in main
+
     Visitor V1;
     V1.display();
 
     string items2[3] = {"Jhumkay", "Kashmiri Churiyan", "Heels"};
-    Visitor V2("Easha", 21, 600, 3000, 3, items2);
+    Visitor V2("Easha", 21, 3000, 3, 3);
+    V2.setItems(items2, 3);
+    V2.eidiReceived = 5000;
+    V2.budget += V2.eidiReceived;
+    V2.totalEidiDistributed += V2.eidiReceived;
     V2.display();
 
     Visitor V3(V2);
     string V3_new_arr[3] = {"hijab", "nails", "mehndi"};
     V3.setItems(V3_new_arr, 3); // verification of deep copy
+    V3.eidiReceived = 1000;
+    V3.budget += V3.eidiReceived;
+    V3.totalEidiDistributed += V3.eidiReceived;
     V3.display();
 
-    string items3[2] = {"Kurta", "Khussa"};
-    Visitor V4("Ahmed", 25, 2000, 5000, 2, items3);
+    string items3[2] = {"Kurta", "Khussay"};
+    Visitor V4("Ahmed", 25, 2000, 2, 2);
+    V4.setItems(items3, 2);
+    V4.eidiReceived = 1000;
+    V4.budget += V4.eidiReceived;
+    V4.totalEidiDistributed += V4.eidiReceived;
+
     V4.display();
     cout << "\n\n\n\n";
 
-    // 4
+
+
+
+
+    // 4, items2
 
     cout << "\n========= Nested Scope Test =========\n";
     {
         // sweet stall
         string sweets_block[3] = {"Gulab Jamun", "Barfi", "Jalebi"};
-        SweetStall temp_S4(sweets_block, "Karachi Sweets", 3, 800, 50);
+        SweetStall temp_S4("Karachi Sweets", 3, 800, 50);
+        temp_S4.setItems(sweets_block, 3);
 
         // visitor
+
         string items_block[3] = {"Bangles", "Mehndi", "Scarf"};
-        Visitor temp_V5("Sara", 19, 1500, 2500, 3, items_block);
+        Visitor temp_V5("Sara", 19, 2500, 3, 3);
+        temp_V5.setItems(items_block, 3);
+        temp_V5.eidiReceived = 8000;
+        temp_V5.budget += temp_V5.eidiReceived;
+        temp_V5.totalEidiDistributed += temp_V5.eidiReceived;
 
         cout << "\nInside Block:\n";
         temp_S4.display();
@@ -416,6 +480,8 @@ int main()
     }
     cout << "\n=======================================\n";
     cout << "\n\n\n\n";
+
+
 
     // 5
     cout << "---------city-wide statistics---------" << endl;

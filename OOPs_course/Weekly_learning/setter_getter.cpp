@@ -27,7 +27,7 @@ class Rectangle
             length = l;
         }
         // getter function
-        int display_width()
+        int display_width() 
         {
             return width;
         }

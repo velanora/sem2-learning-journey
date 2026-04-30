@@ -9,7 +9,7 @@ class student
 
     public :
     // list initializer method
-    student() : name(""), age(0),gpa(0.0){}
+    student() : name("Unknown"), age(0),gpa(0.0){}
 
     student& setname(string n)
     {
@@ -44,7 +44,8 @@ int main()
 
     s1.show();
 
-    s1.name("Ali").age(18).gpa(3.2);
+    // cascading
+    s1.setname("Ali").setage(18).setgpa(3.2);
 
     s1.show();
 }
