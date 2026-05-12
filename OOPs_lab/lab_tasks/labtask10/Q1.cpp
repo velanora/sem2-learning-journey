@@ -1,55 +1,64 @@
-#include <iostream>
-#include <cstring>
+// Labtask 11
+// Q1
+
+#include<iostream>
 using namespace std;
+
 class Distance
 {
-private:
-    int inch;
+    protected:
     int feet;
+    int inches;
 
-public:
+    public :
 
-Distance() : feet(0), inch(0) {};
-Distance(int f , int i) : feet(f), inch(i) {};
+    Distance() : feet(0), inches(0) {};
 
-Distance operator + (Distance &D)
-{
-    Distance resultant;
-    resultant.inch =  inch + D.inch;
-    resultant.feet = feet + D.feet;
-    return resultant;
-}
+    Distance(int f, int i): feet(f), inches(i)
+    {
+        conversion();
+    }
 
-void feet_to_inch(int &f,int &i)
-{
-    f += inch/12;
-    inch = inch%12;
-}
+    void conversion()
+    {
+        feet += inches/12;
+        inches = inches % 12;
+    }
 
+    Distance operator +(const Distance &D)
+    {
+        Distance temp(0,0);
+        temp.feet = this->feet + D.feet;
+        temp.inches = this->inches + D.inches;
 
-void setdata(int f, int i)
-{
-    feet= f;
-    inch = i;
-}
+        temp.conversion();
+        return temp;
+    }
 
-void showData()
-{
-    feet_to_inch(feet, inch);
-    cout<<"Feet : "<<feet<<endl;
-    cout<<"Inches : "<<inch<<endl;
-}
+    bool operator == (const Distance &D)
+    {
 
+        return (feet == D.feet && inches == D.inches);
+       
+    }
+
+    void show_data() const
+    {
+        cout<<"Feet : "<<feet<<endl;
+        cout<<"Inches :"<<inches<<endl;
+    }
 };
 
 int main()
 {
-    Distance D1;
-    Distance D2(2, 14);
-    D1.setdata(1,24);
+    Distance D1(4, 15);
+    Distance D2(6, 12);
+    if(D2 == D1)
+    {
+        cout<<"Both distances are equal "<<endl;
 
-    Distance D3 = D1 + D2;
-    D3.showData();
-    
-    return 0;
+    }
+    Distance D3;
+    D3 = D1 + D2;
+    D3.show_data();
 }

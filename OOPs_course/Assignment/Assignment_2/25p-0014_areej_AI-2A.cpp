@@ -1,7 +1,7 @@
 // assignment 2
 // OOP theory
 // ! TA Sahab, you didn't tell anything regarding  purchaseCount and itemCount in Sweetstalls and Visitors respectively.
-// ! Sir zulqernain suggested to leave it as it is, but i used them by making an addition
+// ! Sir zulqarnain suggested to leave it as it is, but i used them by making an addition
 // ! I have commented the where ever i added something you haven't suggested.
 // ! Another confusion so about step 3 in main()
 

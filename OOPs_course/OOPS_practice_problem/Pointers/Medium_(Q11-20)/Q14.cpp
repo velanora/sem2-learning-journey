@@ -37,8 +37,7 @@ int main()
                 char temp[l];
                 strcpy(temp, *(ptr + i));      // temp = string i
                 strcpy(*(ptr + i), *(ptr + j)); // string i = string j
-                strcpy(*(ptr + j), temp);  // string j = string i
-                
+                strcpy(*(ptr + j), temp);  // string j = string i  
             }
             
         }

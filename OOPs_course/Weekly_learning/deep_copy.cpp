@@ -5,16 +5,14 @@ class Demo
 {
     int x;
     int *p;
-    public : 
+
+public:
     Demo()
     {
         x = 0;
         p = new int;
         *p = 0;
-
     }
-
-   
 
     Demo(const Demo &d)
     {
@@ -25,17 +23,22 @@ class Demo
 
     void set(int pp, int xx)
     {
+        delete p;
+        p = new int;
         *p = pp;
         x = xx;
-
     }
 
-    void display(){
-        cout<<x<<endl<<*p<<endl;
-
+    ~Demo()
+    {
+        delete p;
     }
 
-
+    void display()
+    {
+        cout << x << endl
+            << *p << endl;
+    }
 };
 
 int main()
@@ -45,9 +48,7 @@ int main()
     d1.display();
     d2.display();
 
-   
-    d2.set(6,5);
+    d2.set(6, 5);
     d1.display();
     d2.display();
-    
 }

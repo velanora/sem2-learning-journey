@@ -17,7 +17,6 @@ class Demo
         return temp;
     }
 
-
     // case 2
     int operator & (const  int a)
     {
@@ -38,16 +37,6 @@ class Demo
         cout<<x<<" "<<y<<endl;
     }
 
-    Demo operator ++ (int)
-    {
-        Demo temp = *this;
-        x++;
-        return temp;
-
-    };
-
-
-    
 
 };
 
@@ -62,6 +51,7 @@ int main()
 
 
     Demo a1(0,0);
+
 
 
     // - operator

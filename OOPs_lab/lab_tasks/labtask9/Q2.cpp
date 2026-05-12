@@ -35,7 +35,7 @@ class AcademicRecord : public virtual Person
 
     public :
 
-    AcademicRecord(float g, string m) :  GPA(g), Major(m)   {}
+    AcademicRecord( float g, string m) :  GPA(g), Major(m)  {}
 
     void setAcademicDetails(string n, int a, float gpa , string m)
     {
@@ -50,7 +50,7 @@ class AcademicRecord : public virtual Person
         cout<<"GPA : "<<GPA<<endl;
         cout<<"Major : "<<Major<<endl;
     }
-
+    
 };
 
 class Scholarship : public virtual Person, public AcademicRecord
@@ -59,7 +59,7 @@ class Scholarship : public virtual Person, public AcademicRecord
     int scholarshipAmount;
     public :
 
-    Scholarship(int a, string n,float g, string m, int sm ):Person(a,n), AcademicRecord(g,m) , scholarshipAmount(sm) {};
+    Scholarship( string n,int a,float g, string m, int sm ): Person(a, n), AcademicRecord( g,m) , scholarshipAmount(sm) {};
 
     void Evaluate_scholarship()
     {
@@ -82,10 +82,11 @@ class Scholarship : public virtual Person, public AcademicRecord
 };
 int main()
 { 
-    Scholarship s(20, "Areej", 3.0, "CS", 0);
+    Scholarship s("Areej",20, 3.0, "CS", 0);
 
     s.Evaluate_scholarship();
     s.displayScholarshipDetails();
+
 
     return 0;
 }
