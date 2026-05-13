@@ -15,18 +15,14 @@ int main()
     char str[n][l];
     char (*ptr)[l] = str;
 
-
-
     cin.ignore();
     for (int i = 0; i < n; i++)
     {
         cout<<"Enter the string "<<i+1<<" : ";
         cin.getline(str[i],l);
     }
-    
-    
+     
     int count = 0;
-
 
     for (int i = 0; i < n; i++)
     {
@@ -51,6 +47,17 @@ int main()
         cout<<endl;
     }
     
-
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
